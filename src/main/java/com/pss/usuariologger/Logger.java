@@ -4,13 +4,9 @@ package com.pss.usuariologger;
 public class Logger {
     private static Logger instancia;
     private ILoggerMetodo metodo;
-    private String caminhoArquivo;
     
     private Logger(ILoggerMetodo metodo) {
         this.metodo = metodo;
-        
-        String diretorio = System.getProperty("user.dir");
-        System.out.println(diretorio);
     }
     
     public static Logger getInstancia() {
@@ -21,12 +17,8 @@ public class Logger {
         return instancia;
     }
     
-    public void setCaminhoArquivo(String caminho) {
-        caminhoArquivo = caminho;
-    }
-    
-    public String getCaminhoArquivo() {
-        return caminhoArquivo;
+    public void configurar(ILoggerMetodo metodo) {
+        this.metodo = metodo;
     }
     
     public void registrar(String mensagem) {

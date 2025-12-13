@@ -5,17 +5,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
-public class JSONMetodo implements ILoggerMetodo {
-
+public class CSVMetodo implements ILoggerMetodo {
+    private char caractere;
+    
+    public CSVMetodo(char caractere) {
+        this.caractere = caractere;
+    }
+    
     @Override
     public void registrar(String mensagem) {
-        Path caminhoPath = Paths.get("log.json");
+        Path caminhoPath = Paths.get("log.csv");
         
         if(!Files.exists(caminhoPath)) criarArquivo();
         
-        String mensagemFormatada = "{\"mensagem\": \"" + mensagem + "\"}\n";
+        DateTimeFormatter formatacao = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String mensagemFormatada = LocalDateTime.now().format(formatacao) + caractere + "\"" + mensagem + "\"\n";
         
         try {
             Files.writeString(caminhoPath, mensagemFormatada, StandardOpenOption.APPEND);
@@ -25,7 +33,7 @@ public class JSONMetodo implements ILoggerMetodo {
     }
     
     private void criarArquivo() {
-        Path caminhoPath = Paths.get("log.json");
+        Path caminhoPath = Paths.get("log.csv");
         
         if (!Files.exists(caminhoPath)) {
             try {
